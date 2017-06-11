@@ -26,7 +26,12 @@ then
 
 		#uid usuario
 		maxuid=$(mysql -u proftpd -pproftpd -D hosting -s -N -e "select max(uid) from ftpuser")
-		uid=$((maxuid+1))
+		if [ -z $maxuid ];
+		then
+			uid=$((maxuid+1))
+		else
+			uid=4000
+		fi
 
 		#Insertamos los datos en mysql
 
@@ -77,11 +82,11 @@ then
 		cat <<-EOF >> /etc/bind/$dominio.conf
 		zone "$dominio" {
      		type master;
-     		file "db.$dominio";
+     		file "db.$usuario";
 		};
 		EOF
 
-		cat <<-EOF >> /etc/bind/db.$usuario
+		cat <<-EOF >> /var/cache/bind/db.$usuario
 		@       IN      SOA     hosting.$dominio. root.localhost. (
                          2         ; Serial
                     604800         ; Refresh
