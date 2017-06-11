@@ -71,9 +71,13 @@ then
 
 		#DNS
 		cat <<-EOF >> /etc/bind/named.conf.local
+		include "/etc/bind/$dominio.conf";
+		EOF
+
+		cat <<-EOF >> /etc/bind/$dominio.conf
 		zone "$dominio" {
-       		type master;
-       		file "/etc/bind/db.$usuario";
+     		type master;
+     		file "db.$dominio";
 		};
 		EOF
 
