@@ -1,5 +1,5 @@
 #!/bin/bash
-read -p "Nombre de dominio(dominio.com): " dominio
+read -p "Nombre de dominio a eliminar(dominio.com): " dominio
 
 noexistedominio=$(mysql -u proftpd -pproftpd -D hosting -s -N -e "select ftpuser.dominio from ftpuser where ftpuser.dominio='$dominio'")
 
@@ -18,8 +18,8 @@ else
 	echo "Datos de MySQL borrados"
 	
 	#DNS
-	rm /etc/bind/db.$usuario
-	sed -i 's/include "/etc/bind/$dominio.conf";/ /g' "/etc/bind/named.conf.local"
+	rm /var/cache/bind/db.$usuario
+	sed -i "/$dominio/d" /etc/bind/named.conf.local
 	rm /etc/bind/$dominio.conf
 	systemctl restart bind9
 	echo "Dominio borrado"
