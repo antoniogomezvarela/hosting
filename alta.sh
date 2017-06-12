@@ -16,11 +16,11 @@ then
 
         if [ -z $noexistedominio ];
         then
-                #Dominio valido
-                echo "Dominio disponible"
+        #Dominio valido
+        echo "Dominio disponible"
 
-                #MySQL
-                #Contraseña ftp
+        #MySQL
+        #Contraseña ftp
 		read -p "Introduce la contraseña para el usuario ftp: " passftp 
 		ftpmd5=$(/bin/echo "{md5}"`/bin/echo -n "$passftp" | openssl dgst -binary -md5 | openssl enc -base64`)
 
